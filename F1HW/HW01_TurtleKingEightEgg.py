@@ -1,0 +1,64 @@
+rainbow=215
+import turtle
+turtleKingEightEgg=turtle
+turtleKingEightEgg.bgcolor("black")
+turtleKingEightEgg.speed(10)
+for i in range(7):
+    turtleKingEightEgg.color("purple")
+    turtleKingEightEgg.penup()
+    turtleKingEightEgg.goto(0,-1*rainbow)
+    turtleKingEightEgg.pendown()
+    turtleKingEightEgg.begin_fill()
+    turtleKingEightEgg.circle(rainbow)
+    turtleKingEightEgg.end_fill()
+    rainbow=rainbow-5 
+    turtleKingEightEgg.color("blue")
+    turtleKingEightEgg.penup()
+    turtleKingEightEgg.goto(0,-1*rainbow)
+    turtleKingEightEgg.pendown()
+    turtleKingEightEgg.begin_fill()
+    turtleKingEightEgg.circle(rainbow)
+    turtleKingEightEgg.end_fill()
+    rainbow=rainbow-5       
+    turtleKingEightEgg.color("green")
+    turtleKingEightEgg.penup()
+    turtleKingEightEgg.goto(0,-1*rainbow)
+    turtleKingEightEgg.pendown()
+    turtleKingEightEgg.begin_fill()
+    turtleKingEightEgg.circle(rainbow)
+    turtleKingEightEgg.end_fill()
+    rainbow=rainbow-5
+    turtleKingEightEgg.color("yellow")
+    turtleKingEightEgg.penup()
+    turtleKingEightEgg.goto(0,-1*rainbow)
+    turtleKingEightEgg.pendown()
+    turtleKingEightEgg.begin_fill()
+    turtleKingEightEgg.circle(rainbow)
+    turtleKingEightEgg.end_fill()
+    rainbow=rainbow-5
+    turtleKingEightEgg.color("orange")
+    turtleKingEightEgg.penup()
+    turtleKingEightEgg.goto(0,-1*rainbow)
+    turtleKingEightEgg.pendown()
+    turtleKingEightEgg.begin_fill()
+    turtleKingEightEgg.circle(rainbow)
+    turtleKingEightEgg.end_fill()
+    rainbow=rainbow-5
+    turtleKingEightEgg.color("red")
+    turtleKingEightEgg.penup()
+    turtleKingEightEgg.goto(0,-1*rainbow)
+    turtleKingEightEgg.pendown()
+    turtleKingEightEgg.begin_fill()
+    turtleKingEightEgg.circle(rainbow)
+    turtleKingEightEgg.end_fill()
+    rainbow=rainbow-5
+turtleKingEightEgg.goto(0,-5)
+turtleKingEightEgg.begin_fill()
+turtleKingEightEgg.color("black")
+turtleKingEightEgg.circle(5)   
+turtleKingEightEgg.end_fill()
+turtleKingEightEgg.penup() 
+turtleKingEightEgg.goto(11111111111111111111111111,11111111111111111111111111111111)
+turtle.done()
+
+
