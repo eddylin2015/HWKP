@@ -1,0 +1,196 @@
+https://huggingface.co/datasets/shibing624/medical
+
+To train a language model, you need a text dataset. The dataset should be large enough to capture the diversity of language but small enough to fit your computational resources (especially for a Tiny LLM). Below are some ways to obtain and prepare a training dataset:
+
+1. Use Open-Source Text Datasets
+There are many publicly available text datasets that you can use for training. Here are some popular ones:
+
+General Text Datasets
+OpenWebText: A large dataset of web pages, similar to the one used to train GPT-2.
+
+Download: OpenWebText
+
+Wikipedia: Clean, structured text from Wikipedia articles.
+
+Download: Wikipedia Dumps
+
+BookCorpus: A collection of free books.
+
+Download: BookCorpus
+
+Common Crawl: A massive dataset of web-crawled data.
+
+Download: Common Crawl
+
+Domain-Specific Datasets
+PubMed: Medical research papers.
+
+Download: PubMed
+
+arXiv: Scientific papers.
+
+Download: arXiv
+
+Legal Texts: Court cases, legal documents, etc.
+
+Example: CaseLaw Access Project
+
+Preprocessed Datasets
+Hugging Face Datasets: A library with many preprocessed datasets.
+
+Install: pip install datasets
+
+Example:
+
+python
+复制
+from datasets import load_dataset
+dataset = load_dataset("wikitext", "wikitext-2-raw-v1")
+print(dataset["train"][0])
+2. Create Your Own Dataset
+If you need a custom dataset, you can create one by collecting text data from various sources.
+
+Web Scraping
+Use libraries like BeautifulSoup or Scrapy to scrape text from websites.
+
+Example:
+
+python
+复制
+import requests
+from bs4 import BeautifulSoup
+
+url = "https://example.com"
+response = requests.get(url)
+soup = BeautifulSoup(response.text, "html.parser")
+text = soup.get_text()
+print(text)
+APIs
+Use APIs to collect text data (e.g., Twitter API, Reddit API, or news APIs).
+
+Example (using Reddit API with praw):
+
+python
+复制
+import praw
+
+reddit = praw.Reddit(client_id='YOUR_CLIENT_ID', client_secret='YOUR_CLIENT_SECRET', user_agent='YOUR_USER_AGENT')
+subreddit = reddit.subreddit("python")
+for post in subreddit.hot(limit=10):
+    print(post.title)
+    print(post.selftext)
+Local Files
+Collect text from local files (e.g., PDFs, Word documents, or plain text files).
+
+Example (reading text from a file):
+
+python
+复制
+with open("my_text_file.txt", "r") as file:
+    text = file.read()
+3. Preprocess the Dataset
+Once you have the raw text, you need to preprocess it to make it suitable for training.
+
+Cleaning
+Remove unwanted characters, HTML tags, or special symbols.
+
+Normalize text (e.g., lowercasing, removing extra spaces).
+
+Example:
+
+python
+复制
+import re
+
+def clean_text(text):
+    text = re.sub(r'\s+', ' ', text)  # Remove extra spaces
+    text = re.sub(r'[^\w\s]', '', text)  # Remove special characters
+    text = text.lower()  # Lowercase
+    return text
+Tokenization
+Split the text into tokens (words, subwords, or characters).
+
+Use libraries like Hugging Face Tokenizers or spaCy.
+
+Example (using Hugging Face Tokenizers):
+
+python
+复制
+from transformers import GPT2Tokenizer
+
+tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
+text = "This is a sample sentence."
+tokens = tokenizer.encode(text)
+print(tokens)
+Splitting into Sequences
+Split the tokenized text into fixed-length sequences for training.
+
+Example:
+
+python
+复制
+def split_into_sequences(tokens, seq_length):
+    sequences = []
+    for i in range(0, len(tokens) - seq_length, seq_length):
+        sequences.append(tokens[i:i + seq_length])
+    return sequences
+4. Prepare the Dataset for Training
+Convert the preprocessed text into a format suitable for PyTorch.
+
+Create a PyTorch Dataset
+Use torch.utils.data.Dataset to create a custom dataset.
+
+Example:
+
+python
+复制
+from torch.utils.data import Dataset, DataLoader
+
+class TextDataset(Dataset):
+    def __init__(self, sequences):
+        self.sequences = sequences
+
+    def __len__(self):
+        return len(self.sequences)
+
+    def __getitem__(self, idx):
+        x = self.sequences[idx][:-1]  # Input sequence
+        y = self.sequences[idx][1:]   # Target sequence (shifted by 1)
+        return torch.tensor(x), torch.tensor(y)
+
+sequences = split_into_sequences(tokens, seq_length=32)
+dataset = TextDataset(sequences)
+dataloader = DataLoader(dataset, batch_size=16, shuffle=True)
+5. Use the Dataset in Training
+Pass the dataloader to your training loop. For example:
+
+python
+复制
+for batch_idx, (inputs, targets) in enumerate(dataloader):
+    outputs = model(inputs)
+    loss = criterion(outputs.view(-1, vocab_size), targets.view(-1))
+    loss.backward()
+    optimizer.step()
+    optimizer.zero_grad()
+6. Example: Using Hugging Face Datasets
+Here’s how you can use the Hugging Face datasets library to load and preprocess a dataset:
+
+python
+复制
+from datasets import load_dataset
+from transformers import GPT2Tokenizer
+
+# Load dataset
+dataset = load_dataset("wikitext", "wikitext-2-raw-v1")
+
+# Load tokenizer
+tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
+
+# Tokenize dataset
+def tokenize_function(examples):
+    return tokenizer(examples["text"], truncation=True, padding="max_length", max_length=32)
+
+tokenized_dataset = dataset.map(tokenize_function, batched=True)
+print(tokenized_dataset["train"][0])
+By following these steps, you can obtain and prepare a dataset for training your Tiny LLM. Start with a small dataset for experimentation, and scale up as needed!
+
