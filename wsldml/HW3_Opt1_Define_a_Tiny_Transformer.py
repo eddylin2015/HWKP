@@ -85,4 +85,6 @@ Epoch 200, Loss: 0.0057
 Epoch 250, Loss: 0.0048
 Epoch 300, Loss: 0.0043
 to be or not to be, that is the questi
+
+https://colab.research.google.com/drive/1GwAigTT7A8JmqPJcLVMiebiukJnN76bt?usp=chrome_ntp#scrollTo=VCIyux0JhNTi
 '''
