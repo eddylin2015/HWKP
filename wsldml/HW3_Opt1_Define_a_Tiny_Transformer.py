@@ -59,6 +59,14 @@ for epoch in range(epochs):
     if (epoch + 1) % 50 == 0:
         print(f'Epoch {epoch + 1}, Loss: {loss.item():.4f}')
 
+# save
+torch.save({
+            'epoch': epoch,
+            'model_state_dict': model.state_dict(),
+            'optimizer_state_dict': optimizer.state_dict(),
+            'loss': loss,
+            }, 'model.pt')
+
 # Generate text
 def generate_text(model, start_seq, length):
     model.eval()
